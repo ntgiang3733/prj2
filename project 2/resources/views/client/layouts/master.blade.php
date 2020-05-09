@@ -2,13 +2,17 @@
 <html lang="vi">
 
 <head>
-	<title>Electro Store - @yield('title') </title>
+	<title>Electro Store - @yield('title')</title>
 	<!-- Meta tag Keywords -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8" />
-	<meta name="keywords" content="Electro Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
-	<!-- //Meta tag Keywords -->
+	<meta name="keywords" content="Electro Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"
+	/>
 	<meta name="csrf-token" content="{{ csrf_token() }}">
+	<base href="{{ asset('') }}">
+	
+	<!-- //Meta tag Keywords -->
+
 	<!-- Custom-Files -->
 	<link href="assets/client/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 	<!-- Bootstrap css -->
@@ -20,19 +24,22 @@
 	<!-- pop-up-box -->
 	<link href="assets/client/css/menu.css" rel="stylesheet" type="text/css" media="all" />
 	<!-- menu style -->
+
+	<link href="assets/client/css/easy-responsive-tabs.css" rel="stylesheet" type="text/css" media="all" />
 	<!-- //Custom-Files -->
 
 	<!-- web fonts -->
 	<link href="assets/client/css/lato.css" rel="stylesheet">
-	<link href="assets/client/css/opensan.css" rel="stylesheet">
+	<link href="assets/client/css/opensans.css" rel="stylesheet">
+
+	<link href="assets/admin/css/toastr.css" rel="stylesheet">
 	<!-- //web fonts -->
-	<link rel="stylesheet" type="text/css" href="assets/admin/css/toastr.css">
-	<link rel="stylesheet" type="text/css" href="assets/client/css/easy-responsive-tabs.css">
+
 </head>
 
 <body>
 	<!-- top-header -->
-	@include('client.layouts.header-top')
+	@include('client.layouts.header-top');	
 
 	<!-- Button trigger modal(select-location) -->
 	<div id="small-dialog1" class="mfp-hide">
@@ -57,6 +64,7 @@
 					<option>Chicago</option>
 					<option>Indianapolis</option>
 				</optgroup>
+				
 			</select>
 			<div class="clearfix"></div>
 		</div>
@@ -69,38 +77,37 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title text-center">Đăng Nhập</h5>
+					<h5 class="modal-title text-center">Dang nhap</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<form action="{{ route('login') }}" method="post">
+					<form action="login" method="post">
 						@csrf
 						<div class="form-group">
-							<label class="col-form-label">Địa Chỉ Email</label>
-							<input type="text" class="form-control" placeholder=" " name="email">
+							<label class="col-form-label">Email</label>
+							<input type="text" class="form-control" placeholder=" " name="email" >
 						</div>
 						<div class="form-group">
-							<label class="col-form-label">Mật Khẩu</label>
-							<input type="password" class="form-control" placeholder=" " name="password">
+							<label class="col-form-label">Mat khau</label>
+							<input type="password" class="form-control" placeholder=" " name="password" >
 						</div>
 						<div class="right-w3l">
-							<input type="submit" class="form-control" value="Đăng Nhập">
+							<input type="submit" class="form-control" value="Log in">
 						</div>
 						<div class="right-w3l">
-							<a href="login/facebook" class="btn btn-primary">Đăng nhập bằng facebook</a>
+							<a href="login/facebook" class="btn btn-primary">Dang nhap bang Facebook</a>
 						</div>
 						<div class="sub-w3l">
 							<div class="custom-control custom-checkbox mr-sm-2">
-								<input type="checkbox" class="custom-control-input" name='remember' id="customControlAutosizing">
-								<label class="custom-control-label" for="customControlAutosizing" >Nhớ Mật Khẩu?</label>
+								<input type="checkbox" class="custom-control-input" name="remember"  id="customControlAutosizing">
+								<label class="custom-control-label" for="customControlAutosizing" > Nho mat khau ?</label>
 							</div>
 						</div>
-						<p class="text-center dont-do mt-3">Nếu bạn chưa có tài khoản?
+						<p class="text-center dont-do mt-3">Chua co tai khoant?
 							<a href="#" data-toggle="modal" data-target="#register">
-								Đăng Ký Ngay
-							</a>
+								Dang ky</a>
 						</p>
 					</form>
 				</div>
@@ -112,7 +119,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Đăng Ký</h5>
+					<h5 class="modal-title">Register</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -175,7 +182,6 @@
 
 	<!-- header-bottom-->
 	@include('client.layouts.header-bottom')
-	
 	<!-- shop locator (popup) -->
 	<!-- //header-bottom -->
 	<!-- navigation -->
@@ -196,6 +202,8 @@
 
 	<!-- footer -->
 	@include('client.layouts.footer')
+	<!-- //footer -->
+	
 </body>
 
 </html>
