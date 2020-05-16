@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Categories;
 use App\Http\Requests\StoreCategoryRequest;
 use Validator;
+use Auth;
 
 class CategoryController extends Controller
 {
@@ -17,8 +18,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $category = Categories::paginate(5);
-        return view('admin.pages.category.list',\compact("category"));
+        if($user->can('view',Categories::class)) {
+            
+            return view('admin.pages.category.list',\compact("category"));
+        }
+        
     }
 
     /**
@@ -28,7 +34,13 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.category.add');
+        $user = Auth::user();
+        $category = Categories::paginate(5);
+        if($user->can('create',Categories::class)) {
+            
+            return view('admin.pages.category.add');
+        }
+        
     }
 
     /**
@@ -39,12 +51,18 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        Categories::create([
-            'name' => $request->name,
-            'slug' => utf8tourl($request->name),
-            'status' => $request->status
-        ]);
-        return redirect()->route('category.index');
+        $user = Auth::user();
+        $category = Categories::paginate(5);
+        if($user->can('create',Categories::class)) {
+            Categories::create([
+                'name' => $request->name,
+                'slug' => utf8tourl($request->name),
+                'status' => $request->status
+            ]);
+            return redirect()->route('category.index');
+            
+        }
+        
     }
 
     /**
@@ -66,8 +84,14 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Categories::find($id);
-        return response()->json($category,200);
+        $user = Auth::user();
+        $category = Categories::paginate(5);
+        if($user->can('update',Categories::class)) {
+            $category = Categories::find($id);
+            return response()->json($category,200);
+            
+        }
+        
     }
 
     /**
@@ -79,27 +103,33 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(),[
-            'name' => 'required|min:2|max:255'
+        $user = Auth::user();
+        $category = Categories::paginate(5);
+        if($user->can('update',Categories::class)) {
+            $validator = Validator::make($request->all(),[
+                'name' => 'required|min:2|max:255'
 
-        ],[
-            'required' => 'Ten danh muc san pham khong duoc de trong',
-            'min' => 'Ten danh muc san pham phai du tu 2-255 ky tu',
-            'max' => 'Ten danh muc san pham phai du tu 2-255 ky tu',  
-        ]);
+            ],[
+                'required' => 'Ten danh muc san pham khong duoc de trong',
+                'min' => 'Ten danh muc san pham phai du tu 2-255 ky tu',
+                'max' => 'Ten danh muc san pham phai du tu 2-255 ky tu',  
+            ]);
 
-        if($validator->fails()) {
-            return response()->json([ 'error'=>'true','message' => $validator -> errors() ],200);
+            if($validator->fails()) {
+                return response()->json([ 'error'=>'true','message' => $validator -> errors() ],200);
+            }
+
+            $category = Categories::find($id);
+            $category->update([
+                'name' => $request->name,
+                'slug' => utf8tourl($request->name),
+                'status' => $request->status
+            ]);
+
+            return response()->json(['success' => 'them thanh cong'] );
+            
         }
-
-        $category = Categories::find($id);
-        $category->update([
-            'name' => $request->name,
-            'slug' => utf8tourl($request->name),
-            'status' => $request->status
-        ]);
-
-        return response()->json(['success' => 'them thanh cong'] );
+        
     }
 
     /**
@@ -110,8 +140,14 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Categories::find($id);
-        $category->delete();
-        return response()->json(['success' => 'Xoa thanh cong']);
+        $user = Auth::user();
+        $category = Categories::paginate(5);
+        if($user->can('delete',Categories::class)) {
+            $category = Categories::find($id);
+            $category->delete();
+            return response()->json(['success' => 'Xoa thanh cong']);
+            
+        }
+        
     }
 }
